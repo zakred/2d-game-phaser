@@ -2,6 +2,13 @@ const path = require('path')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+new webpack.DefinePlugin({
+    'process.env':{
+        'NODE_ENV': JSON.stringify('production'),
+        'BACKEND_FQDN': JSON.stringify("http://localhost:3000")
+    }
+})
+
 module.exports = {
     mode: 'production',
     devtool: 'source-map',
