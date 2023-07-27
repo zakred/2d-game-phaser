@@ -1,26 +1,21 @@
-const path = require("path");
+const path = require('path')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-  entry: "./src/game.ts",
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-    ],
-  },
-  resolve: {
-    extensions: [".ts", ".tsx", ".js"],
-  },
+  mode: 'production',
+  devtool: 'source-map',
+  entry: './src/game.js',
   output: {
-    filename: "game.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: 'game.js',
+    path: path.resolve(__dirname, 'dist')
   },
-  watch: false,
-  watchOptions: {
-    ignored: '**/node_modules',
-  },
-  mode: "production",
-};
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      inject: true,
+      template: path.resolve(__dirname, 'src', 'index.html'),
+    }),
+  ]
+}
