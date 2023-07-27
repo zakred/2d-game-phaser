@@ -6,8 +6,9 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack --watch & live-server --port=8085",
+    "server": "webpack & ts-node server/server.ts",
     "build-prod": "NODE_ENV=production webpack --config ./webpack.production.config.js",
-    "server": "webpack & ts-node server/server.ts"
+    "server-prod": "NODE_ENV=production ts-node --transpile-only server/server.ts"
   },
   "author": "William Pederzoli",
   "license": "ISC",
