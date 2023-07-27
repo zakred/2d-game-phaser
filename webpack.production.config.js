@@ -3,13 +3,6 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack');
 
-new webpack.DefinePlugin({
-    'process.env':{
-        'NODE_ENV': JSON.stringify('production'),
-        'BACKEND_FQDN': JSON.stringify("http://localhost:3000")
-    }
-})
-
 module.exports = {
     mode: 'production',
     devtool: 'source-map',
@@ -31,11 +24,17 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env':{
+                'NODE_ENV': JSON.stringify('production'),
+                'BACKEND_FQDN': JSON.stringify("http://localhost:3000")
+            }
+        }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             inject: true,
             template: path.resolve(__dirname, 'src', 'index.html'),
-        }),
+        })
     ]
 }
