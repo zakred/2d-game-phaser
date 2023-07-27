@@ -6,6 +6,14 @@ This mini game was developed as part of a challenge with the following instructi
 
 https://github.com/wpederzoli/2d-game-phaser/assets/29479944/fd92d980-7376-4790-bf9a-aa3d1268d87b
 
+# Config
+
+| ENV               | Description                           | Default               |
+|-------------------|---------------------------------------|-----------------------|
+| SERVER_PORT       | Port of the backend server            | 3000                  |
+| CORS_ALLOWED_FQDN | In the server it will allow this FQDN | http://127.0.0.1:8085 |
+| BACKEND_FQDN      | Set in the web, the backend FQDN      | http://localhost:3000 |
+
 # To run locally
 This project handles Font and Bakend so to run it locally you'd just need to:
 ```

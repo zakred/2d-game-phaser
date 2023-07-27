@@ -1,6 +1,6 @@
 import io, { Socket } from "socket.io-client";
 
-const URL = "http://localhost:3000";
+const URL = process.env.BACKEND_FQDN || "http://localhost:3000";
 const FALLBACK_TIMEOUT = 5000;
 
 const COMMANDS = {

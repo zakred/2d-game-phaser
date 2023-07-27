@@ -6,6 +6,7 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack --watch & live-server --port=8085",
+    "prod": "NODE_ENV=production webpack --config ./webpack.production.config.js & live-server --port=8085",
     "server": "webpack & ts-node server/server.ts"
   },
   "author": "William Pederzoli",

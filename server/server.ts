@@ -3,7 +3,8 @@ import http from "http";
 import { Server } from "socket.io";
 import { createRoom, joinRoom, activeRooms } from "./room";
 
-const port = process.env.PORT || 3000;
+const port = process.env.SERVER_PORT || 3000;
+const cors_host = process.env.CORS_ALLOWED_FQDN || "http://127.0.0.1:8085";
 const app = express();
 const server = http.createServer(app);
 
@@ -13,7 +14,7 @@ type PlayerPosition = {
 };
 
 const io = new Server(server, {
-  cors: { origin: "http://127.0.0.1:8085" },
+  cors: { origin: cors_host },
 });
 
 io.on("connection", (socket) => {
