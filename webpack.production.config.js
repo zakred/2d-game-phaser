@@ -27,7 +27,7 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env':{
                 'NODE_ENV': JSON.stringify('production'),
-                'BACKEND_FQDN': JSON.stringify("http://localhost:3000")
+                'BACKEND_FQDN': JSON.stringify("https://game.pi-rats.io")
             }
         }),
         new CleanWebpackPlugin(),
