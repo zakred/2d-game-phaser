@@ -4,7 +4,8 @@
   "description": "2D mini-game in Phaser",
   "main": "index.js",
   "scripts": {
-    "server-prod": "NODE_ENV=production ts-node --transpile-only server/server.ts"
+    "start": "ts-node server.ts",
+    "prod": "NODE_ENV=production ts-node --transpile-only server.ts"
   },
   "author": "William Pederzoli",
   "license": "ISC",
