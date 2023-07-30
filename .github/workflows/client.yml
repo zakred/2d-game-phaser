@@ -5,19 +5,10 @@ on:
     branches: [ "master", "add-ai" ]
     paths:
       - client/**
-env:
-  DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
-  DOCKER_IMAGE: zakred/pi-rats-front:latest
 jobs:
-  build-push:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Docker login
-        run: echo $DOCKER_REGISTRY_SECRET | docker login -u zakred --password-stdin
-      - name: Build the Docker image
-        run: cd client && docker build -t $DOCKER_IMAGE .
-      - name: Push image
-        run: docker push $DOCKER_IMAGE
-      - name: Clean up
-        run: rm -rfv ~/.docker/config.json
+  call-workflow-passing-data:
+    uses: zakred/2d-game-phaser/.github/workflows/docker-build-push.yml@add-ai
+    secrets:
+      DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+      DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+      DOCKER_IMAGE_NAME: zakred/pi-rats-client:latest

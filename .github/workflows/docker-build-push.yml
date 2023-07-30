@@ -26,5 +26,7 @@ jobs:
         run: cd server && docker build -t $DOCKER_IMAGE_NAME .
       - name: Push image
         run: docker push $DOCKER_IMAGE_NAME
+
       - name: Clean up
+        if: always()
         run: rm -rfv ~/.docker/config.json
