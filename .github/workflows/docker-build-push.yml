@@ -14,6 +14,7 @@ env:
   DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
   DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
   DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+  DOCKER_CONTEXT_PATH: ${{ secrets.DOCKER_CONTEXT_PATH }}
 
 jobs:
   build-push:
@@ -23,7 +24,7 @@ jobs:
       - name: Docker login
         run: echo $DOCKER_REGISTRY_SECRET | docker login -u $DOCKER_REGISTRY_USER --password-stdin
       - name: Build the Docker image
-        run: cd server && docker build -t $DOCKER_IMAGE_NAME .
+        run: cd $DOCKER_CONTEXT_PATH && docker build -t $DOCKER_IMAGE_NAME .
       - name: Push image
         run: docker push $DOCKER_IMAGE_NAME
 

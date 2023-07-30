@@ -12,7 +12,7 @@
 docker build -t zakred/pi-rats-front .
 docker push zakred/pi-rats-front
 ```
- 
+
 # To run locally
 This project handles Font and Bakend so to run it locally you'd just need to:
 ```
