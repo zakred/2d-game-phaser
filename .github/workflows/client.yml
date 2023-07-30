@@ -7,14 +7,17 @@ on:
       - client/**
 env:
   DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+  DOCKER_IMAGE: zakred/pi-rats-front:latest
 jobs:
-  build:
+  build-push:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Docker login
         run: echo $DOCKER_REGISTRY_SECRET | docker login -u zakred --password-stdin
       - name: Build the Docker image
-        run: cd client && docker build --tag zakred/pi-rats-front:latest .
+        run: cd client && docker build -t $DOCKER_IMAGE .
       - name: Push image
-        run: docker build push zakred/pi-rats-front:latest
+        run: docker push $DOCKER_IMAGE
+      - name: Clean up
+        run: rm -rfv ~/.docker/config.json

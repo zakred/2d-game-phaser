@@ -5,16 +5,10 @@ on:
     branches: [ "master", "add-ai" ]
     paths:
       - server/**
-env:
-  DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Docker login
-        run: echo $DOCKER_REGISTRY_SECRET | docker login -u zakred --password-stdin
-      - name: Build the Docker image
-        run: cd server && docker build --tag zakred/pi-rats-back:latest .
-      - name: Push image
-        run: docker build push zakred/pi-rats-server:latest
+  call-workflow-passing-data:
+    uses: zakred/2d-game-phaser/.github/workflows/docker-build-push.yml@add-ai
+    secrets:
+      DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+      DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+      DOCKER_IMAGE_NAME: zakred/pi-rats-back:latest
