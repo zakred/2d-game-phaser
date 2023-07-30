@@ -1,0 +1,20 @@
+name: Client Docker Image CI
+
+on:
+  push:
+    branches: [ "master", "add-ai" ]
+    paths:
+      - client/**
+env:
+  DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Docker login
+        run: echo $DOCKER_REGISTRY_SECRET | docker login -u zakred --password-stdin
+      - name: Build the Docker image
+        run: cd client && docker build --tag zakred/pi-rats-front:latest .
+      - name: Push image
+        run: docker build push zakred/pi-rats-front:latest
