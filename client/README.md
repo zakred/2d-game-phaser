@@ -19,5 +19,4 @@ This project handles Font and Bakend so to run it locally you'd just need to:
 npm install
 npm run start
 npm run server
-
 ```
