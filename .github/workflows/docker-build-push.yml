@@ -23,8 +23,8 @@ jobs:
       - name: Docker login
         run: echo $DOCKER_REGISTRY_SECRET | docker login -u $DOCKER_REGISTRY_USER --password-stdin
       - name: Build the Docker image
-        run: cd server && docker build -t $DOCKER_IMAGE .
+        run: cd server && docker build -t $DOCKER_IMAGE_NAME .
       - name: Push image
-        run: docker push $DOCKER_IMAGE
+        run: docker push $DOCKER_IMAGE_NAME
       - name: Clean up
         run: rm -rfv ~/.docker/config.json
