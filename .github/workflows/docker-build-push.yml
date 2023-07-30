@@ -9,6 +9,8 @@ on:
         required: true
       DOCKER_IMAGE_NAME:
         required: true
+      DOCKER_CONTEXT_PATH:
+        required: true
 
 env:
   DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
