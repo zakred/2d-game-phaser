@@ -1,16 +1,15 @@
 {
-  "name": "2d-game-phaser",
-  "version": "1.0.0",
-  "description": "2D mini-game in Phaser",
+  "name": "pi-rats-js-server",
+  "version": "2.0.0",
+  "description": "Pi-Rats Dodgeball",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "ts-node src/server.ts",
     "compile": "tsc -p .",
     "compile-watch": "npm run compile -- -w",
-    "start-server": "node src/server.js",
-    "dev": "concurrently --kill-others \"npm run compile-watch\" \"npm run start-server\" ",
-    "prod-old": "ts-node --transpile-only src/server.ts"
+    "start-server": "node dist/server.js",
+    "start-server-watch": "nodemon dist/server.js",
+    "dev": "concurrently --kill-others \"npm run compile-watch\" \"npm run start-server-watch\" "
   },
   "author": "William Pederzoli",
   "devDependencies": {
@@ -18,9 +17,9 @@
     "@types/node": "^20.1.5",
     "@types/socket.io": "^3.0.2",
     "concurrently": "^8.2.0",
+    "nodemon": "^3.0.1",
     "phaser": "^3.60.0",
     "ts-loader": "^9.4.2",
-    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {

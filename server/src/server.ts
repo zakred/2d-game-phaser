@@ -16,11 +16,15 @@ type PlayerPosition = {
 };
 
 const io = new Server(server, {
-  cors: { origin: cors_host },
+  cors: { origin: cors_host.split(',') },
 });
 
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log(`A user connected id: ${socket.id}  user-agent: ${socket.request.headers['user-agent']}`);
+
+  // setInterval(() => {
+  //   io.emit("uuid", "hi this is: " + uuidv4());
+  // }, 7000)
 
   socket.on("createParty", (roomId) => {
     // createRoom(roomId, socket.id);

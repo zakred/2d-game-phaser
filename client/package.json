@@ -1,7 +1,7 @@
 {
-  "name": "2d-game-phaser",
-  "version": "1.0.0",
-  "description": "2D mini-game in Phaser",
+  "name": "pi-rats-js-client",
+  "version": "2.0.0",
+  "description": "Pi-Rats Dodgeball",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
