@@ -6,11 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "ts-node src/server.ts",
-    "compile": "tsc -p . -w",
+    "compile": "tsc -p .",
     "compile-watch": "npm run compile -- -w",
     "start-server": "node src/server.js",
     "dev": "concurrently --kill-others \"npm run compile-watch\" \"npm run start-server\" ",
-    "prod": "ts-node --transpile-only src/server.ts"
+    "prod-old": "ts-node --transpile-only src/server.ts"
   },
   "author": "William Pederzoli",
   "devDependencies": {
