@@ -38,13 +38,14 @@ export default class MainMenuScene extends Phaser.Scene {
     );
   }
 
-  createPartyClick() {
-    this.inputContainer = new UIInputContainer(
-      this,
-      "New Party",
-      "Create",
-      (roomName: string) => this.startParty(roomName)
-    );
+  async createPartyClick() {
+    await this.startParty()
+    // this.inputContainer = new UIInputContainer(
+    //   this,
+    //   "New Party",
+    //   "Create",
+    //   (roomName: string) => this.startParty(roomName)
+    // );
   }
 
   joinPartyClick() {
@@ -56,9 +57,10 @@ export default class MainMenuScene extends Phaser.Scene {
     );
   }
 
-  async startParty(roomName: string) {
-    const res = await this.partyService.createParty(roomName);
+  async startParty() {
+    const res = await this.partyService.createParty();
     if (res.roomId !== "") {
+      console.log(res)
       this.clearUI();
       this.game.scene.start("GamePlayScene", {
         connection: this.partyService.getSocket(),
@@ -83,7 +85,9 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   clearUI() {
-    this.inputContainer.destroy();
+    if (this.inputContainer) {
+      this.inputContainer.destroy();
+    }
     this.createButton.destroy();
     this.joinButton.destroy();
     this.creditsButton.destroy();

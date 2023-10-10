@@ -22,8 +22,8 @@ export default class StartPartyService {
     this.socket = io(URL);
   }
 
-  async createParty(name: string): Promise<RoomCreationResponse> {
-    this.socket.emit(COMMANDS.createParty, name);
+  async createParty(): Promise<RoomCreationResponse> {
+    this.socket.emit(COMMANDS.createParty);
     return new Promise((resolve) =>
       this.socket.on(
         COMMANDS.partyCreated,

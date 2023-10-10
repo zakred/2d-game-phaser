@@ -25,6 +25,10 @@ export default class RoomService {
     return this.userId;
   }
 
+  getRoomId() {
+    return this.roomId
+  }
+
   IsHost() {
     return this.isHost;
   }

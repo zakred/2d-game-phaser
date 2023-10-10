@@ -59,7 +59,7 @@ export default class GamePlayScene extends Phaser.Scene {
     this.input.setDefaultCursor("url(../../assets/cursor.png), pointer");
     this.input.mouse?.disableContextMenu();
 
-    this.ui = new GamePlayUI(this, this.roomService.IsHost());
+    this.ui = new GamePlayUI(this, this.roomService.IsHost(), this.roomService.getRoomId());
   }
 
   spawnEnemyPirate() {
@@ -122,5 +122,9 @@ export default class GamePlayScene extends Phaser.Scene {
   update() {
     this.pirate?.update();
     this.enemy?.update();
+  }
+
+  scenePause() {
+    this.scene.remove();
   }
 }

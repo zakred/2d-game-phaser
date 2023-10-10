@@ -1,10 +1,12 @@
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
-import { createRoom, joinRoom, activeRooms } from "./room";
+import {createRoom, joinRoom, activeRooms, roomExists} from "./room.js";
+import { v4 as uuidv4 } from 'uuid';
+import {hri} from 'human-readable-ids'
 
 const port = process.env.SERVER_PORT || 3000;
-const cors_host = process.env.CORS_ALLOWED_FQDN || "http://127.0.0.1:8085";
+const cors_host = process.env.CORS_ALLOWED_FQDN || "http://localhost:8085";
 const app = express();
 const server = http.createServer(app);
 
@@ -21,9 +23,22 @@ io.on("connection", (socket) => {
   console.log("A user connected");
 
   socket.on("createParty", (roomId) => {
-    createRoom(roomId, socket.id);
-    socket.join(roomId);
-    io.to(roomId).emit("partyCreated", roomId, socket.id);
+    // createRoom(roomId, socket.id);
+    // socket.join(roomId);
+    // io.to(roomId).emit("partyCreated", roomId, socket.id);
+
+    // const id = uuidv4()
+    let id
+    for (let i = 0; i < 100; i++) {
+      id = hri.random()
+      if (!roomExists(id)) {
+        break
+      }
+    }
+
+    createRoom(id, socket.id);
+    socket.join(id);
+    io.to(id).emit("partyCreated", id, socket.id);
   });
 
   socket.on("joinParty", (roomId) => {
@@ -112,8 +127,5 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log("server running");
-});
-
-io.listen(server);
+console.log(`Server running on port: ${port}`);
+io.listen(+port);

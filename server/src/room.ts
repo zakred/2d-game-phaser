@@ -30,3 +30,7 @@ export const joinRoom = (roomId: string, userId: string): boolean => {
 
   return false;
 };
+
+export const roomExists = (roomId: string): boolean => {
+  return activeRooms.some((r) => r.id === roomId)
+};

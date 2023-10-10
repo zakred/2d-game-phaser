@@ -40,4 +40,8 @@ export default class UIText {
   destroy() {
     this.text.remove();
   }
+
+  // toggle() {
+  //   this.text.hidden = !this.text.hidden
+  // }
 }

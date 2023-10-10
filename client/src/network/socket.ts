@@ -44,6 +44,7 @@ export default class SocketConnector {
     });
 
     this.socket.on("count", (count: number) => {
+      this.sceneRef.ui.destroyRoomNameText()
       if (this.sceneRef.roomService.IsHost()) {
         count > 0 && this.sceneRef.ui.updateCount(count.toString());
         if (count === 0) {
