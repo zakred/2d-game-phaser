@@ -1,0 +1,14 @@
+{
+    "roots": ["<rootDir>/src/test"],
+    "transform": {
+        "^.+\\.ts?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+        "js",
+        "ts",
+        "json"
+    ],
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "verbose": true
+}
