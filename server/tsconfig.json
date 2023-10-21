@@ -5,7 +5,7 @@
     "esModuleInterop": true,
     "outDir": "dist"
   },
-  "include": ["src"],
+  "include": ["src/main"],
   "lib": ["es6", "dom", "dom.iterable", "scripthost"],
   "typeRoots": ["./node_modules/phaser/types"],
   "types": ["Phaser"]

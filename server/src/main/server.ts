@@ -1,9 +1,13 @@
 import express from "express";
 import http from "http";
-import { Server } from "socket.io";
-import {createRoom, joinRoom, activeRooms, roomExists} from "./room.js";
-import { v4 as uuidv4 } from 'uuid';
+import {Server} from "socket.io";
+import {activeRooms, createRoom, getRoom, joinRoom, roomExists} from "./room.js";
 import {hri} from 'human-readable-ids'
+import Player from "./player.js";
+import Game from "./game.js";
+import {GameStatePublishable} from "./game_state_publishable";
+import TurnAction from "./turn_action";
+import {ActionType} from "./action_type";
 
 const port = process.env.SERVER_PORT || 3000;
 const cors_host = process.env.CORS_ALLOWED_FQDN || "http://localhost:8085";
@@ -14,6 +18,8 @@ type PlayerPosition = {
   x: number;
   y: number;
 };
+
+const games = {}
 
 const io = new Server(server, {
   cors: { origin: cors_host.split(',') },
@@ -53,21 +59,65 @@ io.on("connection", (socket) => {
   });
 
   socket.on("startGame", (roomId) => {
-    io.to(roomId).emit("start", socket.id);
+    if (games[roomId]) {
+      io.to(roomId).emit("error", 'game already started');
+      return
+    }
+    const room = getRoom(roomId)
+    const player1 = new Player(room.playerOne.id, room.playerOne.id)
+    const player2 = new Player(room.playerTwo.id, room.playerTwo.id)
+    const game = new Game(roomId, player1)
+    game.setPlayer2(player2)
+    game.start()
+    const updateInterval = setInterval(() => {
+      const st = game.getState()
+      const gamePub: GameStatePublishable = {
+          turn:  st.turn,
+          turnTimeRunning: game.getTurnTimeRunning(),
+          player1Position: st.playersPosition[player1.getId()],
+          player2Position: st.playersPosition[player2.getId()],
+          platform1: st.platform1.getTiles(),
+          platform2: st.platform1.getTiles(),
+          status: st.status,
+          actionsHistory: game.getPublishableActionsHistory()
+      }
+      io.to(roomId).emit("gameState", gamePub);
+    }, 1000)
+
+    games[roomId] = {game: game ,updateInterval: updateInterval}
+
+    //io.to(roomId).emit("started", socket.id);
   });
 
-  socket.on(
-    "movePlayer",
-    (roomId: string, userId: string, player: PlayerPosition) => {
-      io.to(roomId).emit("updatePosition", userId, player);
-    }
-  );
+  // socket.on(
+  //   "movePlayer",
+  //   (roomId: string, userId: string, player: PlayerPosition) => {
+  //     io.to(roomId).emit("updatePosition", userId, player);
+  //   }
+  // );
 
   socket.on(
-    "shootTarget",
-    (roomId: string, userId: string, position: { x: number; y: number }) => {
-      io.to(roomId).emit("setShootPosition", userId, position);
-    }
+      "movePlayer",
+      (roomId: string, position: PlayerPosition) => {
+        const game = games[roomId].game
+        game.addAction(socket.id, ActionType.MOVE, position)
+        //io.to(roomId).emit("updatePosition", userId, player);
+      }
+  );
+
+  // socket.on(
+  //   "shootTarget",
+  //   (roomId: string, userId: string, position: { x: number; y: number }) => {
+  //     io.to(roomId).emit("setShootPosition", userId, position);
+  //   }
+  // );
+
+  socket.on(
+      "shootTarget",
+      (roomId: string, position: PlayerPosition) => {
+        const game = games[roomId].game
+        game.addAction(socket.id, ActionType.MOVE, position)
+      }
   );
 
   socket.on("readyToShoot", (roomId: string, userId: string) => {

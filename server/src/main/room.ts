@@ -34,3 +34,7 @@ export const joinRoom = (roomId: string, userId: string): boolean => {
 export const roomExists = (roomId: string): boolean => {
   return activeRooms.some((r) => r.id === roomId)
 };
+
+export const getRoom = (roomId: string): Room => {
+  return activeRooms.find((r) => r.id === roomId)
+};
