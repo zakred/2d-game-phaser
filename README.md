@@ -1,19 +1,10 @@
-# 2d-game-phaser
+# Pi-rates / 2d-game-phaser
 This mini game was developed as part of a challenge with the following instructions:
 
 - Using Phaser3, create a 2D pixel mini-game that demonstrates knowledge of arcade physics, sprite sheets, loading assets externally and communication between scenes. 
 - Using NodeJS, create a backend server that communicates with the mini game in real time. 
 
 https://github.com/wpederzoli/2d-game-phaser/assets/29479944/fd92d980-7376-4790-bf9a-aa3d1268d87b
-
-# To run locally
-This project handles Font and Bakend so to run it locally you'd just need to:
-```
-npm install
-npm run start
-npm run server
-
-```
 
 # Pirate Dodgeball
 The goal of the game is pretty simple, you have to hit the enemy pirate.
@@ -33,5 +24,3 @@ Each player has 10 seconds to make their move and they both move and shoot at th
 
 ### Path finding
 The current implementation uses Dijkstra's A* algorithm to find the best possible path
-
-

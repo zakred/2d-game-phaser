@@ -1,0 +1,15 @@
+name: Client Docker Image CI
+
+on:
+  push:
+    branches: [ "master", "add-ai" ]
+    paths:
+      - client/**
+jobs:
+  call-workflow-passing-data:
+    uses: zakred/2d-game-phaser/.github/workflows/docker-build-push.yml@add-ai
+    secrets:
+      DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+      DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
+      DOCKER_IMAGE_NAME: zakred/pi-rats-front:v2.0.0
+      DOCKER_CONTEXT_PATH: client
