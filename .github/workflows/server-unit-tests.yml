@@ -10,7 +10,7 @@ on:
       - server/**
 permissions:
   pull-requests: write # to comment in PR
-  contents: read # to post commit comments
+  contents: write # to post commit comments
 
 jobs:
   unit-tests:
