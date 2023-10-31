@@ -11,6 +11,7 @@ on:
 permissions:
   pull-requests: write # to comment in PR
   contents: write # to post commit comments
+  checks: write # annotations
 
 jobs:
   unit-tests:
