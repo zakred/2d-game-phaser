@@ -5,12 +5,11 @@ on:
     branches: [ "master", "add-ai" ]
     paths:
       - server/**
-
 jobs:
   call-workflow-passing-data:
     uses: zakred/2d-game-phaser/.github/workflows/docker-build-push.yml@add-ai
     secrets:
       DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
       DOCKER_REGISTRY_SECRET: ${{ secrets.DOCKER_REGISTRY_SECRET }}
-      DOCKER_IMAGE_NAME: zakred/pi-rats-back:latest
+      DOCKER_IMAGE_NAME: zakred/pi-rats-back:v2.0.0
       DOCKER_CONTEXT_PATH: server
