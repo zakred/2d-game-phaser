@@ -45,6 +45,9 @@ class Platform {
     }
 
     isTileWithinRange(position: Point) {
+        if(position.getX() < 0 || position.getY() < 0){
+            return false
+        }
         return position.getX() < this.width && position.getY() < this.height
     }
 

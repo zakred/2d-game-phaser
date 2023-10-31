@@ -8,8 +8,10 @@ import Platform from "./platform.js";
 import Task from "./util/task.js";
 import * as errorUtil from "./util/error-util.js";
 import {ActionPublishable} from "./action_publishable";
+import Pathfinder from "./pathfinder";
 
 class Game {
+    private readonly pathfinder: Pathfinder
     private readonly id: string;
     private readonly taskRunner: any
     private readonly name: string;
@@ -25,7 +27,7 @@ class Game {
     private turnActions: any
     private publishableActions: Array<ActionPublishable>
 
-    constructor(name: string, player1: Player, id : string = randomUUID(), turnDuration = 12500, taskRunner = Task) {
+    constructor(name: string, player1: Player, pathfinder: Pathfinder, id : string = randomUUID(), turnDuration = 12500, taskRunner = Task) {
         this.id = id
         this.name = name
         this.turnDuration = turnDuration
@@ -37,6 +39,7 @@ class Game {
         this.turnActions = {}
         this.taskRunner = taskRunner
         this.publishableActions = []
+        this.pathfinder = pathfinder
         this.#setInitialState()
     }
 
@@ -98,7 +101,7 @@ class Game {
             errorUtil.throwPlayer2Missing()
         }
 
-        this.task = new this.taskRunner(() => this.advanceTurn(), this.turnDuration)
+        this.task = new this.taskRunner(() =>  {try{this.advanceTurn()}catch(e){console.error(e)}}, this.turnDuration)
         this.task.start()
 
         this.playersPosition[this.player1.getId()] = new Point(0, 4)
@@ -121,7 +124,21 @@ class Game {
         }
     }
 
+    // isPositionWithinPlatformRange(x: number, y: number) {
+    //     return this.platform1.isTileWithinRange(new Point(x, y))
+    // }
+
     advanceTurn() {
+
+        // Don't do anything if game is over
+
+        if (this.state.status === GameStatus.OVER) {
+            return
+        }
+
+        // Advance turn
+
+        this.state.turn++
 
         // Process actions for players
 
@@ -135,7 +152,7 @@ class Game {
 
                         const pubActionMove : ActionPublishable = {
                             player: this.player1.getId() === playerId ? 1 : 2,
-                            turn: this.state.turn,
+                            turn: this.state.turn - 1,
                             type: +type,
                             value: payload
                         }
@@ -149,7 +166,7 @@ class Game {
 
                         const pubActionShoot : ActionPublishable = {
                             player: this.player1.getId() === playerId ? 1 : 2,
-                            turn: this.state.turn,
+                            turn: this.state.turn - 1,
                             type: +type,
                             value: shootPayload
                         }
@@ -183,13 +200,22 @@ class Game {
             this.state.status = GameStatus.OVER
         }
 
-        // Advance turn
-
-        this.state.turn++
     }
 
     addAction(playerId: string, type: ActionType, payload: any) {
         this.#ensurePlayerIdExists(playerId)
+        if (!this.platform1.isTileWithinRange(new Point(payload.x, payload.y))){
+            return
+        }
+
+        if (type === ActionType.MOVE) {
+            const board = this.platforms[playerId].getTiles()
+            const currentPosition = this.playersPosition[playerId]
+            const isPathAvailable = this.pathfinder.isPathAvailable(board, currentPosition.getX(), currentPosition.getY(), payload.x, payload.y)
+            if(!isPathAvailable){
+                errorUtil.throwInvalidAction('MOVE', 'Path not available')
+            }
+        }
 
         // This will override any previous action of the same type with the new payload
 

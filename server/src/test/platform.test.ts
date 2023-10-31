@@ -35,8 +35,24 @@ describe('Platform', () => {
         expect(result).toBeFalsy()
     });
 
+    it('should have out of range point X with negative number', async () => {
+        let position = new Point(-9, 2)
+
+        let result = sut.isTileWithinRange(position)
+
+        expect(result).toBeFalsy()
+    });
+
     it('should have out of range point Y', async () => {
         let position = new Point(11, 9)
+
+        let result = sut.isTileWithinRange(position)
+
+        expect(result).toBeFalsy()
+    });
+
+    it('should have out of range point Y with negative number', async () => {
+        let position = new Point(2, -2)
 
         let result = sut.isTileWithinRange(position)
 

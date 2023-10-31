@@ -3,6 +3,7 @@ import Game from '../main/game';
 import {GameStatus} from '../main/game_status'
 import {ActionType} from "../main/action_type";
 import Point from "../main/point";
+import Pathfinder from "../main/pathfinder";
 const errors = require("../main/util/error-util")
 
 describe('Game', () => {
@@ -13,6 +14,7 @@ describe('Game', () => {
     let taskRunnerFn: any
     let taskRunnerStartMock: any
     let taskRunnerGetTimeRunningMock: any
+    let pathfinder: any
 
     beforeEach(() => {
         taskRunnerStartMock = jest.fn()
@@ -26,11 +28,14 @@ describe('Game', () => {
         }
         player1 = {}
         player2 = {}
-        sut = new Game('dummy', player1, 'dummy', 10000, taskRunner);
+        pathfinder = {
+            isPathAvailable: jest.fn(x => true)
+        }
+        sut = new Game('dummy', player1, pathfinder, 'dummy', 10000, taskRunner);
     });
 
     it('should have an id', async () => {
-        sut = new Game('dummy', undefined)
+        sut = new Game('dummy', undefined, pathfinder)
         const result = sut.getId();
 
         expect(result).toHaveLength(36)
@@ -43,7 +48,7 @@ describe('Game', () => {
     });
 
     it('should be able to set an id', async () => {
-        sut = new Game('dummy', player1, 'id');
+        sut = new Game('dummy', player1, pathfinder, 'id');
 
         const result = sut.getId()
 
@@ -69,7 +74,7 @@ describe('Game', () => {
     });
 
     it('should be able to set a game duration', async () => {
-        sut = new Game('dummy', player1, 'dummy', 1);
+        sut = new Game('dummy', player1, pathfinder,'dummy', 1);
 
         const result = sut.getTurnDuration()
 
@@ -159,6 +164,22 @@ describe('Game', () => {
         expect(taskRunnerStartMock).toBeCalledTimes(1)
     });
 
+    it('should throw when adding a move action when there is no path available', async () => {
+        const initialBoard = [[true, true, true, true, true], [true, true, true, true, true], [true, true, true, true, true]]
+        player1.getId = () => '1'
+        player2.getId = () => '2'
+        player1.isAlive = () => true
+        player2.isAlive = () => true
+        pathfinder.isPathAvailable = jest.fn(x => false)
+        sut.setPlayer2(player2)
+        sut.start()
+        const payload = {x: 1, y: 1}
+
+        expect(() => sut.addAction('1', ActionType.MOVE, payload)).toThrow()
+        expect(pathfinder.isPathAvailable).toHaveBeenCalledTimes(1)
+        expect(pathfinder.isPathAvailable).toHaveBeenCalledWith(initialBoard, 0, 4, 1, 1)
+    });
+
     it('should move player after turn', async () => {
         player1.getId = () => '1'
         player2.getId = () => '2'
@@ -206,6 +227,17 @@ describe('Game', () => {
         expect(sut.getState().platform2).toBe(result)
     });
 
+    it('should get enemy platform from the player id 2', async () => {
+        player1.getId = () => '1'
+        player2.getId = () => '2'
+        sut.setPlayer2(player2)
+        sut.start()
+
+        const result = sut.getEnemyPlatform('2')
+
+        expect(sut.getState().platform1).toBe(result)
+    });
+
     it('should destroy a tile in the platform when opponent shoots it', async () => {
         player1.getId = () => '1'
         player2.getId = () => '2'
@@ -220,6 +252,23 @@ describe('Game', () => {
         const result = sut.getState().platform2.isTilePresent(new Point(1, 1))
 
         expect(result).toBeFalsy()
+    });
+
+    it('should destroy a tile only in the platform2 when opponent shoots it', async () => {
+        player1.getId = () => '1'
+        player2.getId = () => '2'
+        player1.isAlive = () => true
+        player2.isAlive = () => true
+        sut.setPlayer2(player2)
+        sut.start()
+        const payload = {x: 1, y: 1}
+        sut.addAction('1', ActionType.SHOOT, payload)
+
+        sut.advanceTurn()
+        const result = sut.getState().platform1.isTilePresent(new Point(1, 1))
+        expect(result).toBeTruthy()
+        const result2 = sut.getState().platform2.isTilePresent(new Point(1, 1))
+        expect(result2).toBeFalsy()
     });
 
     it('should kill the player when opponent hit', async () => {
@@ -254,21 +303,43 @@ describe('Game', () => {
         expect(result).toBe(GameStatus.OVER)
     });
 
-    it('should return the history of turn actions in publishable object', async () => {
+    it('should not be possible to create turn actions once its game over', async () => {
         player1.getId = () => '1'
         player2.getId = () => '2'
         player1.isAlive = () => false
+        player2.isAlive = () => true
+        player1.shoot = () => {}
+        sut.setPlayer2(player2)
+        sut.start()
+        sut.addAction('1', ActionType.MOVE, {x: 2, y: 2})
+        sut.addAction('2', ActionType.SHOOT, {x: 2, y: 2})
+
+        sut.advanceTurn()
+        sut.addAction('2', ActionType.MOVE, {x: 1, y: 1})
+        sut.advanceTurn()
+        const state = sut.getState()
+        const actionsDone = sut.getPublishableActionsHistory().length
+
+        expect(state.status).toBe(GameStatus.OVER)
+        expect(state.turn).toBe(2)
+        expect(actionsDone).toBe(2)
+    });
+
+    it('should return the history of turn actions in publishable object', async () => {
+        player1.getId = () => '1'
+        player2.getId = () => '2'
+        player1.isAlive = () => true
         player2.isAlive = () => true
         player1.shoot = () => {}
         player2.shoot = () => {}
         sut.setPlayer2(player2)
         sut.start()
 
-        sut.addAction('1', ActionType.MOVE, {x: 2, y: 2})
+        sut.addAction('1', ActionType.MOVE, {x: 1, y: 1})
         sut.addAction('2', ActionType.SHOOT, {x: 2, y: 2})
         sut.advanceTurn()
         sut.addAction('1', ActionType.SHOOT, {x: 2, y: 2})
-        sut.addAction('2', ActionType.MOVE, {x: 2, y: 2})
+        sut.addAction('2', ActionType.MOVE, {x: 1, y: 1})
         sut.advanceTurn()
         sut.advanceTurn()
         const result = sut.getPublishableActionsHistory()
