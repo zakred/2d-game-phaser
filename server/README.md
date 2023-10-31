@@ -1,6 +1,6 @@
 # Game server
 
-Gameplay.
+Gameplay
 
 # Config
 
