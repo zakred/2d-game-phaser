@@ -48,23 +48,11 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   async createAiGame() {
-    // this.inputContainer = new UIInputContainer(
-    //     this,
-    //     "Play vs AI",
-    //     "CreateAi",
-    //     () => {}
-    // );
     alert('Coming Soon')
   }
 
   async createPartyClick() {
     await this.startParty()
-    // this.inputContainer = new UIInputContainer(
-    //   this,
-    //   "New Party",
-    //   "Create",
-    //   (roomName: string) => this.startParty(roomName)
-    // );
   }
 
   joinPartyClick() {

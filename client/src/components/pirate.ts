@@ -64,34 +64,10 @@ export default class Pirate {
     const target = new Vector2(position.x, position.y + WOOD_SPRITE_SIZE / 2)
     const piratePosition = new Phaser.Math.Vector2(this.sprite.x, this.sprite.y)
     this.cannonball.shootTo(target, piratePosition);
-    // this.setTargetPosition(new Vector2(position.x, position.y))
-    // this.shoot()
   }
   setMovePosition(x: number, y: number) {
     this.movePosition = new Phaser.Math.Vector2(x, y);
   }
-
-  getMovePosition() {
-    return this.movePosition;
-  }
-
-  // setTargetPosition(target: Phaser.Math.Vector2) {
-  //   this.cannonball.setTargetPosition(target);
-  // }
-
-  // shoot() {
-  //   this.cannonball.shoot(
-  //     new Phaser.Math.Vector2(this.sprite.x, this.sprite.y)
-  //   );
-  // }
-
-  getPosition() {
-    return this.sprite.body.position;
-  }
-
-  // getTargetPosition() {
-  //   return this.cannonball.getTargetPosition();
-  // }
 
   findPath() {
     console.log("finding path");
@@ -276,30 +252,12 @@ export default class Pirate {
     return lowestFScoreNode;
   }
 
-  isColliding(x: number, y: number) {
-    return this.sprite.getBounds().contains(x, y);
-  }
-
   setCanMove(move: boolean) {
     this.canMove = move;
   }
 
   destroy() {
     this.sprite.destroy();
-  }
-
-  isMoving() {
-    // if (this.sprite.body.velocity.x !== 0 || this.sprite.body.velocity.y !== 0) {
-    //   return true;
-    // }
-    // if (this.isFindingPath){
-    //   return true
-    // }
-    if (!this.sprite?.body?.velocity) {
-      return false
-    }
-    return this.sprite.body.velocity.angle() !== 0
-    // return this.sprite.body.velocity.length() !== 0
   }
 
   update(): void {

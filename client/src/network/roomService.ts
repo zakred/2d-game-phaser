@@ -2,7 +2,6 @@ import { Socket } from "socket.io-client";
 import GamePlayScene from "../scenes/gameplay";
 import SocketConnector from "./socket";
 import {PointPublishable} from "../integration/gameserver/point_publishable";
-import {ActionPublishable} from "../integration/gameserver/action_publishable";
 
 export default class RoomService {
   private socketConnection: SocketConnector;
@@ -40,35 +39,11 @@ export default class RoomService {
     this.socketConnection.sendMovePosition(this.roomId, position);
   }
 
-  // sendShootPosition(target: Phaser.Math.Vector2) {
-  //   this.socketConnection.sendShootPosition(this.roomId, this.userId, target);
-  // }
-
   sendShootPosition(position: PointPublishable) {
     this.socketConnection.sendShootPosition(this.roomId, position);
   }
-  //
-  // readyToShoot() {
-  //   this.socketConnection.sendReadyToShoot(this.roomId, this.userId);
-  // }
-
-  // sendPlayerMove(move: boolean) {
-  //   this.socketConnection.sendPlayerCanMove(this.roomId, this.userId, move);
-  // }
-  //
-  // startTurn() {
-  //   this.socketConnection.startCount(this.roomId);
-  // }
 
   startGame() {
     this.socketConnection.startGame(this.roomId);
   }
-  //
-  // playerHit() {
-  //   this.socketConnection.sendPlayerHit(this.roomId, this.userId);
-  // }
-  //
-  // destroyBlock(x: number, y: number) {
-  //   this.socketConnection.removeObject(this.roomId, this.userId, x, y);
-  // }
 }

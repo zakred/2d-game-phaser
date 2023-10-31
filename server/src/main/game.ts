@@ -124,10 +124,6 @@ class Game {
         }
     }
 
-    // isPositionWithinPlatformRange(x: number, y: number) {
-    //     return this.platform1.isTileWithinRange(new Point(x, y))
-    // }
-
     advanceTurn() {
 
         // Don't do anything if game is over

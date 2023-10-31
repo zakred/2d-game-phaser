@@ -96,7 +96,6 @@ io.on("connection", (socket) => {
           const game = games[roomId].game
           logger.debug(socket.id, ActionType.MOVE, position)
           game.addAction(socket.id, ActionType.MOVE, position)
-          //io.to(roomId).emit("updatePosition", userId, player);
         })
       }
   );
@@ -111,57 +110,6 @@ io.on("connection", (socket) => {
         })
       }
   );
-
-  // socket.on("readyToShoot", (roomId: string, userId: string) => {
-  //   const room = activeRooms.find((r) => r.id === roomId);
-  //   if (room?.playerOne.id === userId) {
-  //     room.playerOne.ready = true;
-  //   }
-  //
-  //   if (room?.playerTwo.id === userId) {
-  //     room.playerTwo.ready = true;
-  //   }
-  //
-  //   if (room?.playerOne.ready && room?.playerTwo.ready) {
-  //     room.playerOne.ready = false;
-  //     room.playerTwo.ready = false;
-  //     io.to(roomId).emit("shoot");
-  //     io.to(roomId).emit("endTurn");
-  //   }
-  // });
-
-  // socket.on("playerHit", (roomId: string, userId: string) => {
-  //   io.to(roomId).emit("hit", userId);
-  // });
-  //
-  // socket.on(
-  //   "playerCanMove",
-  //   (roomId: string, userId: string, canMove: boolean) => {
-  //     io.to(roomId).emit("readyToMove", userId, canMove);
-  //   }
-  // );
-  //
-  // socket.on("startCount", (roomId: string) => {
-  //   let count = 10;
-  //   let countDownInterval = setInterval(() => {
-  //     io.to(roomId).emit("count", count);
-  //     count--;
-  //     if (count === -1) {
-  //       io.to(roomId).emit("playTurn");
-  //     }
-  //
-  //     if (count < -1) {
-  //       clearInterval(countDownInterval);
-  //     }
-  //   }, 1000);
-  // });
-  //
-  // socket.on(
-  //   "removeObject",
-  //   (roomId: string, userId: string, x: number, y: number) => {
-  //     io.to(roomId).emit("destroyObject", userId, x, y);
-  //   }
-  // );
 
   socket.on("disconnect", () => {
     logger.info("A user disconnected");

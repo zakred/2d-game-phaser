@@ -1,9 +1,6 @@
 import * as Phaser from "phaser";
 import { Socket } from "socket.io-client";
-import Platform, {
-  LEFT_PLATFORM_POS,
-  RIGHT_PLATFORM_POS,
-} from "../components/platform";
+import Platform from "../components/platform";
 import Pirate, {
   LEFT_PIRATE_POS,
   RIGHT_PIRATE_POS,

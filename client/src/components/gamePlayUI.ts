@@ -23,7 +23,6 @@ export default class GamePlayUI {
     this.text = new UIText(scene, scene.cameras.main.width / 2, 18, initalText);
     this.finalText = scene.add.text(scene.cameras.main.width/2 - 100,128,roomNameText,{fontSize:40, color: 'black'})
     this.finalText.visible = false
-    //this.roomNameText = new UIText(scene, scene.cameras.main.width / 2, 125, roomNameText, 50);
     this.roomNameText = scene.add.text(scene.cameras.main.width/2,128,roomNameText,{fontSize:48, color: 'black'})
         .setOrigin(0.5)
         .setInteractive()

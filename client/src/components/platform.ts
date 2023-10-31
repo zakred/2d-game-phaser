@@ -253,60 +253,16 @@ export default class Platform {
     }
   }
 
-  removeTile(x, y) {
-    // console.log(`remove TILE: ${x} ${y}`)
-    // const block = this.platformBlocks.get(x, y);
-    // console.log(block)
-    // // this.platformBlocks.
-    // block.destroy()
-
-        // const b =  as Phaser.Physics.Arcade.Sprite;
-        // if (b.getBounds().contains(target.x, target.y)) {
-        //   block.destroy();
-        // }
-  }
-
   removeElementAt(x: number, y: number) {
-    const targetY = y
-    const targetX = x - WOOD_SPRITE_SIZE / 2
-    // const pointCollide = new Phaser.Physics.Arcade.Factory(this.sceneRef.game.).body(x, y, 1, 1)
-    // this.sceneRef.physics.overlap(
-    //   pointCollide.gameObject,
-    //   this.sceneRef.platformB?.getBlocks(),
-    //   async (_, block): Promise<void> => {
-    //     const b = block as Phaser.Physics.Arcade.Sprite;
-    //     if (b.getBounds().contains(x, y)) {
-    //       block.destroy();
-    //     }
-    //   }
-    // );
-    // pointCollide.destroy()
-
-    // this.getBlocks()
-    //     .getChildren().forEach(tt => console.log(tt.body.position))
-    const hello = this.getBlocks()
+    const elementToRemove = this.getBlocks()
         .getChildren()
-        // .filter(child => child.body.position.x >= x && child.body.position.x <= x + 64 && child.body.position.y >= targetY && child.body.position.y <= targetY + 64)
         .filter(child => child.body.position.x === x - 32 && child.body.position.y === y)
-    console.log('this is hello')
-    console.log(hello)
-    if (hello?.length > 0){
-      hello[0].destroy()
+    if (elementToRemove?.length > 0){
+      elementToRemove[0].destroy()
     }
-    console.log('---this is hello')
-    // let block: Phaser.GameObjects.GameObject;
-    // this.getBlocks()
-    //   .getChildren()
-    //   .forEach((b: Phaser.Physics.Arcade.Sprite) => {
-    //     if (b.x === targetX && b.y === targetY) {
-    //       console.log(b)
-    //       block = b as Phaser.GameObjects.GameObject;
-    //       console.log(block)
-    //     }
-    //   });
-
-    console.log(`want to destroy: ${targetX} ${targetY}`)
-    // console.log(block)
-    // block && block.destroy();
+    // const targetY = y
+    // const targetX = x - WOOD_SPRITE_SIZE / 2
+    // console.log(elementToRemove)
+    // console.log(`want to destroy: ${targetX} ${targetY}`)
   }
 }
