@@ -1,13 +1,13 @@
-const path = require('path')
-const {CleanWebpackPlugin} = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack');
+const path = require("path");
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
-    mode: 'production',
-    devtool: 'source-map',
-    entry: './src/game.ts',
+    mode: "production",
+    devtool: "source-map",
+    entry: "./src/game.ts",
     module: {
         rules: [
             {
@@ -21,26 +21,24 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"],
     },
     output: {
-        filename: 'game.js',
-        path: path.resolve(__dirname, 'dist')
+        filename: "game.js",
+        path: path.resolve(__dirname, "dist"),
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env':{
-                'NODE_ENV': JSON.stringify('production'),
-                'BACKEND_FQDN': JSON.stringify("https://game.pi-rats.io")
-            }
+            "process.env": {
+                NODE_ENV: JSON.stringify("production"),
+                BACKEND_FQDN: JSON.stringify("https://game.pi-rats.io"),
+            },
         }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
+            filename: "index.html",
             inject: true,
-            template: path.resolve(__dirname, 'src', 'index.html'),
+            template: path.resolve(__dirname, "src", "index.html"),
         }),
         new CopyPlugin({
-            patterns: [
-                { from: "assets", to: 'assets' },
-            ],
+            patterns: [{from: "assets", to: "assets"}],
         }),
-    ]
-}
+    ],
+};

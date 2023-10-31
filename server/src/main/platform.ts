@@ -4,56 +4,59 @@ import * as errorUtil from "./util/error-util.js";
 class Platform {
     private readonly height: number;
     private readonly width: number;
-    private readonly tiles : Array<Array<boolean>>
+    private readonly tiles: Array<Array<boolean>>;
     constructor(height: number, width: number) {
         this.height = height;
         this.width = width;
-        this.tiles = []
-        this.#initPlatform(this.tiles, height, width)
+        this.tiles = [];
+        this.#initPlatform(this.tiles, height, width);
     }
 
-    #initPlatform = (tiles: Array<any>, height: number, width: number) =>{
+    #initPlatform = (tiles: Array<any>, height: number, width: number) => {
         for (let x = 0; x < width; x++) {
-            tiles[x] = []
+            tiles[x] = [];
             for (let y = 0; y < height; y++) {
-                tiles[x][y] = true
+                tiles[x][y] = true;
             }
         }
-    }
+    };
 
     #ensureRangeValid = (position: Point) => {
         if (!this.isTileWithinRange(position)) {
-            errorUtil.throwInvalidAction('PLATFORM_TILE', 'Tile is out of range')
+            errorUtil.throwInvalidAction(
+                "PLATFORM_TILE",
+                "Tile is out of range",
+            );
         }
-    }
+    };
 
     getSize = () => {
         return {
-            height : this.height,
-            width: this.width
-        }
-    }
+            height: this.height,
+            width: this.width,
+        };
+    };
 
     destroyTile = (position: Point) => {
-        this.#ensureRangeValid(position)
-        this.tiles[position.getX()][position.getY()] = false
-    }
+        this.#ensureRangeValid(position);
+        this.tiles[position.getX()][position.getY()] = false;
+    };
 
     isTilePresent(position: Point) {
-        this.#ensureRangeValid(position)
-        return this.tiles[position.getX()][position.getY()]
+        this.#ensureRangeValid(position);
+        return this.tiles[position.getX()][position.getY()];
     }
 
     isTileWithinRange(position: Point) {
-        if(position.getX() < 0 || position.getY() < 0){
-            return false
+        if (position.getX() < 0 || position.getY() < 0) {
+            return false;
         }
-        return position.getX() < this.width && position.getY() < this.height
+        return position.getX() < this.width && position.getY() < this.height;
     }
 
     getTiles() {
-        return [...this.tiles]
+        return [...this.tiles];
     }
 }
 
-export default Platform
+export default Platform;

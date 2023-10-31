@@ -1,8 +1,5 @@
-
 export default class Pathfinder {
-
-    constructor() {
-    }
+    constructor() {}
 
     /**
      * Write a javascript function to find if there is a path to move from x and y point to another x and y point in multi dimensional array filled with booleans, representing a board that is 3 width and 5 height, the width array will be equivalent to the coordinates x and the height equivalent to y position, the characters can not walk in diagonal, it should return an empty array if no paths available or an array with the paths it needs to traverse in a JSON object with x and y, and create unit tests written with jest framework
@@ -13,7 +10,13 @@ export default class Pathfinder {
      * @param endX target X
      * @param endY target Y
      */
-    findPaths(board: any, startX: number, startY: number, endX: number, endY: number) {
+    findPaths(
+        board: any,
+        startX: number,
+        startY: number,
+        endX: number,
+        endY: number,
+    ) {
         // Create a queue for BFS
         let queue = [];
         queue.push([{x: startX, y: startY}]);
@@ -28,7 +31,12 @@ export default class Pathfinder {
         visited[startX][startY] = true;
 
         // Define the directions in which we can move
-        let directions = [[-1, 0], [0, -1], [1, 0], [0, 1]];
+        let directions = [
+            [-1, 0],
+            [0, -1],
+            [1, 0],
+            [0, 1],
+        ];
 
         // BFS algorithm
         while (queue.length > 0) {
@@ -47,7 +55,14 @@ export default class Pathfinder {
                 let nextY = currentCell.y + directions[i][1];
 
                 // Check if the adjacent cell is valid and not visited
-                if (nextX >= 0 && nextX < 3 && nextY >= 0 && nextY < 5 && board[nextX][nextY] && !visited[nextX][nextY]) {
+                if (
+                    nextX >= 0 &&
+                    nextX < 3 &&
+                    nextY >= 0 &&
+                    nextY < 5 &&
+                    board[nextX][nextY] &&
+                    !visited[nextX][nextY]
+                ) {
                     // Mark the adjacent cell as visited and enqueue it
                     visited[nextX][nextY] = true;
                     let newPath = [...currentPath];
@@ -61,8 +76,14 @@ export default class Pathfinder {
         return [];
     }
 
-    isPathAvailable(board: any, startX: number, startY: number, endX: number, endY: number) {
-        const paths = this.findPaths(board, startX, startY, endX, endY)
-        return paths.length >= 2
+    isPathAvailable(
+        board: any,
+        startX: number,
+        startY: number,
+        endX: number,
+        endY: number,
+    ) {
+        const paths = this.findPaths(board, startX, startY, endX, endY);
+        return paths.length >= 2;
     }
 }

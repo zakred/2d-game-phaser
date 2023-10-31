@@ -1,14 +1,11 @@
-import 'jest';
-import {createRoom, activeRooms} from '../main/room';
+import "jest";
+import {createRoom, activeRooms} from "../main/room";
 
-describe('Room', () => {
+describe("Room", () => {
+    beforeEach(() => {});
 
-    beforeEach(() => {
-
-    });
-
-    it('should create a room', async () => {
-        createRoom('id', 'dummy')
-        expect(activeRooms.length).toEqual(1)
+    it("should create a room", async () => {
+        createRoom("id", "dummy");
+        expect(activeRooms.length).toEqual(1);
     });
 });

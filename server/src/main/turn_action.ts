@@ -7,7 +7,6 @@ class TurnAction {
         this.type = type;
         this.value = value;
     }
-
 }
 
-export default TurnAction
+export default TurnAction;

@@ -1,5 +1,4 @@
-
 export enum PlatformSide {
     LEFT,
-    RIGHT
+    RIGHT,
 }

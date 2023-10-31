@@ -4,7 +4,7 @@ export const errors = {
     REQUEST_EXPIRED: "REQUEST_EXPIRED",
     INVALID_ACTION: "INVALID_ACTION",
     PLAYER2_MISSING: "PLAYER2_MISSING",
-    INTEGRITY_FAILURE: 'INTEGRITY_FAILURE'
+    INTEGRITY_FAILURE: "INTEGRITY_FAILURE",
 };
 
 export const throwIntegrityError = (reason = "") => {
@@ -33,7 +33,6 @@ export const throwInvalidAction = (action = "", reason = "") => {
         message: `Invalid action '${action}', reason: ${reason}`,
     };
 };
-
 
 export const throwTypeNotSupported = (type = "") => {
     throw {

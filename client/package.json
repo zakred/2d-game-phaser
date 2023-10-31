@@ -8,7 +8,9 @@
     "start-watch": "webpack --watch",
     "start-server": "live-server --port=8085 --cors --no-browser dist",
     "dev": "concurrently --kill-others \"npm run start-watch\" \"npm run start-server\" ",
-    "build-prod": "webpack --config ./webpack.production.config.js"
+    "build-prod": "webpack --config ./webpack.production.config.js",
+    "format": "prettier . --write",
+    "format-check": "prettier . --check"
   },
   "author": "William Pederzoli",
   "devDependencies": {
@@ -17,6 +19,7 @@
     "html-webpack-plugin": "^5.5.3",
     "live-server": "^1.1.0",
     "phaser": "^3.60.0",
+    "prettier": "^3.0.3",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",

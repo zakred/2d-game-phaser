@@ -7,31 +7,31 @@ class Point {
     }
 
     setX = (x: number) => {
-        this.x = x
-    }
+        this.x = x;
+    };
 
     getX = () => {
-        return this.x
-    }
+        return this.x;
+    };
 
     setY = (y: number) => {
-        this.y = y
-    }
+        this.y = y;
+    };
     getY = () => {
-        return this.y
-    }
+        return this.y;
+    };
 
     get = () => {
         return {
             x: this.x,
-            y: this.y
-        }
-    }
+            y: this.y,
+        };
+    };
 
     set = (x: number, y: number) => {
         this.x = x;
         this.y = y;
-    }
+    };
 }
 
-export default Point
+export default Point;
