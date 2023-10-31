@@ -24,3 +24,5 @@ jobs:
       - run: npm ci
       - run: npm test
       - uses: ArtiomTr/jest-coverage-report-action@v2
+        with:
+          working-directory: ./server
