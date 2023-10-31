@@ -9,9 +9,9 @@ on:
     paths:
       - server/**
 permissions:
-  pull-requests: write # to comment in PR
+  pull-requests: write # to comment,reject PR
   contents: read # to post commit comments
-  checks: read # to add annotations
+  checks: write # to add annotations
 
 jobs:
   unit-tests:
