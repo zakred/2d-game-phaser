@@ -5,6 +5,7 @@ on:
     branches: [ "master", "add-ai" ]
     paths:
       - server/**
+
 jobs:
   call-workflow-passing-data:
     uses: zakred/2d-game-phaser/.github/workflows/docker-build-push.yml@add-ai
