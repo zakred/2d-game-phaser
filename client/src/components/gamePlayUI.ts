@@ -6,6 +6,9 @@ export default class GamePlayUI {
   private sceneRef: GamePlayScene;
   private text: UIText;
   private roomNameText: Phaser.GameObjects.Text;
+  private finalText: Phaser.GameObjects.Text;
+  private copiedText: Phaser.GameObjects.Text;
+  private copiedTimeoutId: any
   private left_bottom_txt: UIText;
   private right_bottom_txt: UIText;
   private count: UIText;
@@ -14,15 +17,19 @@ export default class GamePlayUI {
   constructor(scene: GamePlayScene, isHost: boolean, roomId: string) {
     const initalText = isHost ? "Waiting for players" : "Ready to start";
     const roomNameText = this.#getRoomNameText(roomId)
-    const moveText = "Left click to select destination";
-    const shootText = "Right click to select target";
+    const moveText = "Left click to move your character";
+    const shootText = "Right click to attack the enemy";
     this.sceneRef = scene;
     this.text = new UIText(scene, scene.cameras.main.width / 2, 18, initalText);
+    this.finalText = scene.add.text(scene.cameras.main.width/2 - 100,128,roomNameText,{fontSize:40, color: 'black'})
+    this.finalText.visible = false
     //this.roomNameText = new UIText(scene, scene.cameras.main.width / 2, 125, roomNameText, 50);
     this.roomNameText = scene.add.text(scene.cameras.main.width/2,128,roomNameText,{fontSize:48, color: 'black'})
         .setOrigin(0.5)
         .setInteractive()
         .on('pointerdown',()=> this.#copyTextToClipboard(roomId))
+    this.copiedText = scene.add.text((scene.cameras.main.width/2) + 80,150, 'Room name copied',{fontSize:20, color: 'gray'})
+    this.copiedText.visible = false
     const leftInitialTxt = isHost ? moveText : shootText;
     this.left_bottom_txt = new UIText(
       scene,
@@ -69,6 +76,7 @@ export default class GamePlayUI {
     document.body.removeChild(textArea);
   }
   #copyTextToClipboard(text: string) {
+    this.#showCopied()
     if (!navigator.clipboard) {
       this.#fallbackCopyTextToClipboard(text);
       return;
@@ -80,8 +88,21 @@ export default class GamePlayUI {
     });
   }
 
+  #showCopied() {
+    clearTimeout(this.copiedTimeoutId)
+    this.copiedText.visible = true
+    this.copiedTimeoutId = setTimeout(() => {
+      this.copiedText.visible = false
+    }, 2000)
+  }
+
   updateText(text: string, fontSize?: number) {
     this.text.update(text, fontSize);
+  }
+
+  updateFinalText(text: string) {
+    this.finalText.text = text
+    this.finalText.visible = true
   }
 
   updateCount(count: string) {
@@ -94,6 +115,12 @@ export default class GamePlayUI {
       );
     }
     this.count.update(count);
+  }
+
+  destroyCount() {
+    if (this.count){
+      this.count.destroy()
+    }
   }
 
   showStartButton(show: boolean) {

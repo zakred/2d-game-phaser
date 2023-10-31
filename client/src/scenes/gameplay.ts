@@ -74,15 +74,14 @@ export default class GamePlayScene extends Phaser.Scene {
 
   spawnPlayer() {
     if (this.roomService.IsHost()) {
+      // TODO platformA should always be left, and belong to different user
       this.platformA = new Platform(
         this,
-        LEFT_PLATFORM_POS.x,
-        LEFT_PLATFORM_POS.y
+        true, // TODO refactor to use PlatformSide enum
       );
       this.platformB = new Platform(
         this,
-        RIGHT_PLATFORM_POS.x,
-        RIGHT_PLATFORM_POS.y,
+        false,
         true
       );
       this.pirate = new Pirate(
@@ -94,13 +93,11 @@ export default class GamePlayScene extends Phaser.Scene {
     } else {
       this.platformA = new Platform(
         this,
-        RIGHT_PLATFORM_POS.x,
-        RIGHT_PLATFORM_POS.y
+        false
       );
       this.platformB = new Platform(
         this,
-        LEFT_PLATFORM_POS.x,
-        LEFT_PLATFORM_POS.y,
+        true,
         true
       );
       this.enemy = new Pirate(

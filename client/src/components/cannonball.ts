@@ -24,43 +24,43 @@ export default class Cannonball {
       y: target.y,
       duration: 1000,
       onComplete: () => {
-        if (
-          this.sceneRef.enemy.isColliding(
-            target.x,
-            target.y - WOOD_SPRITE_SIZE / 2
-          )
-        ) {
-          this.sceneRef.enemy.destroy();
-          this.sceneRef.roomService.playerHit();
-          this.sceneRef.children.getByName("targetSelect").destroy();
-        }
+        // if (
+        //   this.sceneRef.enemy.isColliding(
+        //     target.x,
+        //     target.y - WOOD_SPRITE_SIZE / 2
+        //   )
+        // ) {
+        //   //this.sceneRef.enemy.destroy();
+        //   //this.sceneRef.roomService.playerHit();
+        //   //this.sceneRef.children.getByName("targetSelect").destroy();
+        // }
         cannonball.destroy();
       },
       onUpdate: () => {
-        this.sceneRef.physics.overlap(
-          cannonball,
-          this.sceneRef.platformB?.getBlocks(),
-          async (_, block): Promise<void> => {
-            const b = block as Phaser.Physics.Arcade.Sprite;
-            if (b.getBounds().contains(target.x, target.y)) {
-              this.sceneRef.roomService.destroyBlock(b.x, b.y);
-              block.destroy();
-            }
-          }
-        );
+          // this.sceneRef.physics.overlap(
+          //   cannonball,
+          //   this.sceneRef.platformB?.getBlocks(),
+          //   async (_, block): Promise<void> => {
+          //     const b = block as Phaser.Physics.Arcade.Sprite;
+          //     if (b.getBounds().contains(target.x, target.y)) {
+          //       //this.sceneRef.roomService.destroyBlock(b.x, b.y); //TODO destroy the tile
+          //       block.destroy();
+          //     }
+          //   }
+          // );
       },
     });
   }
 
-  shoot(originPos: Phaser.Math.Vector2) {
-    this.shootTo(this.targetPos, originPos);
-  }
+  // shoot(originPos: Phaser.Math.Vector2) {
+  //   this.shootTo(this.targetPos, originPos);
+  // }
 
-  getTargetPosition() {
-    return this.targetPos;
-  }
+  // getTargetPosition() {
+  //   return this.targetPos;
+  // }
 
-  setTargetPosition(target: Phaser.Math.Vector2) {
-    this.targetPos = target;
-  }
+  // setTargetPosition(target: Phaser.Math.Vector2) {
+  //   this.targetPos = target;
+  // }
 }

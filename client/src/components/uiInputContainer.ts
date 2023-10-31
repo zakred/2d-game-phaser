@@ -16,6 +16,11 @@ export default class UIInputContainer {
     const btnCreate = document.createElement("button");
     btnCreate.innerHTML = actionText;
     btnCreate.onclick = () => actionCb(inputField.value);
+    inputField.addEventListener("keyup", ({key}) => {
+      if (key === "Enter") {
+        actionCb(inputField.value)
+      }
+    })
     const btnCancel = document.createElement("button");
 
     const gameCanvas = scene.game.canvas;
@@ -107,6 +112,7 @@ export default class UIInputContainer {
     this.container.appendChild(btnsContainer);
     btnsContainer.appendChild(btnCancel);
     btnsContainer.appendChild(btnCreate);
+    inputField.focus()
   }
 
   destroy() {

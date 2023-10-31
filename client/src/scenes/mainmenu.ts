@@ -5,6 +5,7 @@ import StartPartyService from "../network/partyCreation";
 
 export default class MainMenuScene extends Phaser.Scene {
   private partyService: StartPartyService;
+  private createAiButton: UIButton;
   private createButton: UIButton;
   private joinButton: UIButton;
   private creditsButton: UIButton;
@@ -16,6 +17,13 @@ export default class MainMenuScene extends Phaser.Scene {
   }
 
   create() {
+    this.createAiButton = new UIButton(
+        this,
+        this.cameras.main.width / 2,
+        200,
+        "Play vs Ai",
+        () => this.createAiGame()
+    );
     this.createButton = new UIButton(
       this,
       this.cameras.main.width / 2,
@@ -34,8 +42,19 @@ export default class MainMenuScene extends Phaser.Scene {
       this,
       this.cameras.main.width / 2,
       350,
-      "Credits"
+      "Credits",
+        () => alert('Author: William Pederzoli')
     );
+  }
+
+  async createAiGame() {
+    // this.inputContainer = new UIInputContainer(
+    //     this,
+    //     "Play vs AI",
+    //     "CreateAi",
+    //     () => {}
+    // );
+    alert('Coming Soon')
   }
 
   async createPartyClick() {
@@ -88,6 +107,7 @@ export default class MainMenuScene extends Phaser.Scene {
     if (this.inputContainer) {
       this.inputContainer.destroy();
     }
+    this.createAiButton.destroy()
     this.createButton.destroy();
     this.joinButton.destroy();
     this.creditsButton.destroy();
