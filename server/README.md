@@ -1,5 +1,7 @@
 # Game server
 
+Gameplay
+
 # Config
 
 | ENV               | Description                           | Default               |
