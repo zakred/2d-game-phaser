@@ -8,9 +8,13 @@ on:
   pull_request:
     paths:
       - server/**
+permissions:
+  pull-requests: write # to comment,reject PR
+  contents: read # to post commit comments
+  checks: write # to add annotations
 
 jobs:
-  build:
+  unit-tests:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -21,8 +25,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-      - run: npm ci
-      - run: npm test
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+      - name: Run unit tests, report coverage in PR and reject if lower than threshold
+        uses: ArtiomTr/jest-coverage-report-action@v2
         with:
           working-directory: ./server
